@@ -31,10 +31,10 @@ def vdomEnum(firstConf, secondConf):
 		enumVdom = []
 		for line in listConfiguration:
 
-			if re.search("^end", line):
+			if re.search(r"^end", line):
 				break
 
-			vdMatch = re.findall("^edit (\S+)", line)
+			vdMatch = re.findall(r"^edit (\S+)", line)
 			if len(vdMatch) > 0:
 				enumVdom.append(vdMatch[0])
 		enumeredVdomsByConf.append(enumVdom)
@@ -54,7 +54,7 @@ def vdomConfExtractorWorker(vdom_and_listConfiguration):
 	i = vdstart
 	while i < conflen:
 		
-		if re.search("^config vdom", listConfiguration[i]) and re.search("^edit "+vdom, listConfiguration[i+1]):
+		if re.search(r"^config vdom", listConfiguration[i]) and re.search(r"^edit "+vdom, listConfiguration[i+1]):
 			if re.search("next", listConfiguration[i+2]):
 				pass
 			else:
@@ -90,7 +90,7 @@ def vdomConfExtractor(vdoms, confFile):
 
 	g = 0
 	while g < conflen:
-		if re.search("^config global", listConfiguration[g]):
+		if re.search(r"^config global", listConfiguration[g]):
 			digGlobal = True
 			globalConf = []
 
@@ -113,7 +113,7 @@ def vdomConfExtractor(vdoms, confFile):
 	for vdom in vdoms:
 		while vdStart < conflen:
 			
-			if re.search("^config vdom", listConfiguration[vdStart]) and re.search("^edit "+vdom, listConfiguration[vdStart+1]):
+			if re.search(r"^config vdom", listConfiguration[vdStart]) and re.search(r"^edit "+vdom, listConfiguration[vdStart+1]):
 				if re.search("next", listConfiguration[vdStart+2]):
 					pass
 				else:
@@ -149,7 +149,7 @@ def confSectionExtractor(confSection, vdomConf):
 				
 				return extractedConf
 			else:
-				if re.search("\w+ ENC .{15,}", line):
+				if re.search(r"\w+ ENC .{15,}", line):
 					pass
 					#extractedConf.append(line)
 				else:
@@ -159,7 +159,7 @@ def deepVdomCheck(firstVdom, secondVdom):
 
 	enumConfSections = []
 	for csect in firstVdom:
-		if re.search("^config .*", csect) and csect != 'config vdom' and csect != 'config global':
+		if re.search(r"^config .*", csect) and csect != 'config vdom' and csect != 'config global':
 			enumConfSections.append(csect)
 
 	diffCount = 0
